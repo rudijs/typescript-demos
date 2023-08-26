@@ -17,4 +17,14 @@ npm install --save-dev ts-jest
 npx ts-jest config:init
 # Set the rootDir in jest.config.js to ./src
 
+# testing
+npx jest
+google-chrome coverage/lcov-report/index.html
+
+# workflow
+# start the compiler in a pane
+npx tsc -w
+# open a new pane
+# open code editor
+
 ```
