@@ -47,13 +47,13 @@ describe("makeGetRequest", () => {
     mockJest = jest.spyOn(axios, "get").mockResolvedValueOnce(expectedResponse)
 
     const result = await makeGetRequest(axios, url)()
-    // console.log(JSON.stringify(result, null, 2))
+    console.log(JSON.stringify(result, null, 2))
 
     expect(result).toEqual(expectedResponse)
     expect(mockJest).toHaveBeenCalledWith(url)
   })
 
-  it("should make a GET request to the specified URL", async () => {
+  it("should handle a GET request error to a specified URL", async () => {
     const url = "https://dummyjson.com/products/1"
 
     const expectedResponse = {
