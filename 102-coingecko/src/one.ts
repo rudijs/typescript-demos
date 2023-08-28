@@ -9,7 +9,6 @@ export function makeGetRequest(axiosInstance: AxiosStatic, url: string, headers:
   return async (): Promise<Response> => {
     try {
       const request = await axiosInstance.get(url, { headers })
-      console.log(JSON.stringify(request.data, null, 2))
       return { status: request.status, data: request.data }
     } catch (error) {
       if (axiosInstance.isAxiosError(error)) {
@@ -32,7 +31,7 @@ export function makeGetRequest(axiosInstance: AxiosStatic, url: string, headers:
         }
       }
       // Something happened in setting up the request that triggered an Error
-      console.log("Error", error)
+      // console.log("Error", error)
       return { status: 500, data: { error: "Unknown error" } }
     }
   }

@@ -13,7 +13,7 @@ describe("makeGetRequest", () => {
   //   mockJest.mockRestore()
   // })
 
-  it("should make a GET request to the specified URL", async () => {
+  it("should make a GET 200 request to the specified URL", async () => {
     const url = "https://api.coingecko.com/api/v3/coins/bitcoin"
     const headers = { "Content-Type": "application/json" }
 
@@ -49,34 +49,59 @@ describe("makeGetRequest", () => {
 
     const result = await makeGetRequest(axios, url, headers)()
 
-    console.log(result)
-    // console.log(result.status)
-
-    // if (result) {
-    //   // console.log(result.status, result.statusText)
-    //   // console.log(JSON.stringify(result.data, null, 2))
-    // }
-    // console.log(JSON.stringify(result, null, 2))
-
-    // expect(result).toEqual(expectedResponse)
+    expect(result.status).toEqual(200)
     // expect(mockJest).toHaveBeenCalledWith(url)
   })
 
-  it.skip("should handle a GET request error to a specified URL", async () => {
-    const url = "https://dummyjson.com/products/1"
+  it("should handle a GET 404 request error to a specified URL", async () => {
+    const url = "https://api.coingecko.com/api/v3/coins/missing_coin_asfdasfd"
+    const headers = { "Content-Type": "application/json" }
 
     const expectedResponse = {
       data: {
-        key: "value",
+        error: "coin not found",
       },
-      status: 200,
-      statusText: "OK",
-      headers: {},
+      status: 404,
     }
 
-    mockJest = jest.spyOn(axios, "get").mockRejectedValueOnce(Error("Boom!"))
+    // mockJest = jest.spyOn(axios, "get").mockRejectedValueOnce(Error("Boom!"))
 
-    const result = await makeGetRequest(axios, url)()
-    console.log(JSON.stringify(result, null, 2))
+    const result = await makeGetRequest(axios, url, headers)()
+  })
+
+  it("should handle a GET 500 No response request error to a specified URL", async () => {
+    const url = "https://api.coingeckoX0X0X0X0.com/api/v3/coins/missing_coin_asfdasfd"
+    const headers = { "Content-Type": "application/json" }
+
+    const expectedResponse = {
+      data: {
+        error: "No response",
+      },
+      status: 500,
+    }
+
+    // mockJest = jest.spyOn(axios, "get").mockRejectedValueOnce(Error("Boom!"))
+
+    const result = await makeGetRequest(axios, url, headers)()
+    // console.log(result.status, result.data)
+    expect(result).toEqual(expectedResponse)
+  })
+
+  it("should handle a GET 500 Unknown error request error to a specified URL", async () => {
+    const url = "https://api.coingeckoX0X0X0X0.com/api/v3/coins/missing_coin_asfdasfd"
+    const headers = { "Content-Type": "application/json" }
+
+    const expectedResponse = {
+      data: {
+        error: "Unknown error",
+      },
+      status: 500,
+    }
+
+    mockJest = jest.spyOn(axios, "get").mockRejectedValueOnce(Error("Unkown error"))
+
+    const result = await makeGetRequest(axios, url, headers)()
+    // console.log(result.status, result.data)
+    expect(result).toEqual(expectedResponse)
   })
 })
